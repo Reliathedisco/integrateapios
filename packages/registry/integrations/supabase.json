@@ -1,0 +1,50 @@
+{
+  "id": "supabase",
+  "name": "Supabase",
+  "tagline": "Postgres database, auth, storage, and edge functions.",
+  "categories": ["database", "auth", "storage"],
+  "docs": [
+    "https://supabase.com/docs/guides/getting-started/quickstarts/nextjs",
+    "https://supabase.com/docs/guides/auth/server-side/nextjs",
+    "https://supabase.com/docs/guides/database/postgres/row-level-security",
+    "https://supabase.com/docs/guides/storage"
+  ],
+  "env": [
+    "NEXT_PUBLIC_SUPABASE_URL",
+    "NEXT_PUBLIC_SUPABASE_ANON_KEY",
+    "SUPABASE_SERVICE_ROLE_KEY"
+  ],
+  "security": [
+    "Never expose SUPABASE_SERVICE_ROLE_KEY to the client — it bypasses RLS.",
+    "Enable Row Level Security on every user-owned table without exception.",
+    "Use the @supabase/ssr server client in Server Components and Route Handlers, never the anon client.",
+    "Treat NEXT_PUBLIC_SUPABASE_ANON_KEY as public — security comes from RLS policies, not key secrecy.",
+    "Sign Storage URLs with short TTLs for private buckets; never return raw storage paths."
+  ],
+  "patterns": [
+    {
+      "id": "ssr-auth",
+      "name": "SSR auth with cookies",
+      "description": "Use @supabase/ssr to maintain auth state across Server Components, Route Handlers, and Middleware."
+    },
+    {
+      "id": "rls-policies",
+      "name": "Row Level Security",
+      "description": "Author Postgres RLS policies so the database itself is the source of access truth."
+    },
+    {
+      "id": "storage-signed-urls",
+      "name": "Signed storage URLs",
+      "description": "Generate signed URLs server-side for private file access; never expose raw paths."
+    },
+    {
+      "id": "realtime-subscriptions",
+      "name": "Realtime channels",
+      "description": "Subscribe to Postgres changes via Realtime channels for live data."
+    }
+  ],
+  "sdk": {
+    "npm": "@supabase/supabase-js"
+  },
+  "pairings": ["clerk", "stripe", "resend"]
+}

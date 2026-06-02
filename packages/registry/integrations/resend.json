@@ -1,0 +1,45 @@
+{
+  "id": "resend",
+  "name": "Resend",
+  "tagline": "Transactional email for developers, with React-based templates.",
+  "categories": ["email"],
+  "docs": [
+    "https://resend.com/docs/introduction",
+    "https://resend.com/docs/send-with-nextjs",
+    "https://resend.com/docs/webhooks/introduction",
+    "https://react.email/docs/introduction"
+  ],
+  "env": [
+    "RESEND_API_KEY",
+    "RESEND_WEBHOOK_SECRET",
+    "EMAIL_FROM_ADDRESS"
+  ],
+  "security": [
+    "Keep RESEND_API_KEY server-only — never expose to the browser.",
+    "Verify the domain you send from with SPF, DKIM, and DMARC before going to production.",
+    "Verify webhook signatures using Svix headers when handling event callbacks.",
+    "Throttle outbound sends per-user to mitigate abuse on signup or password-reset endpoints.",
+    "Never put user-controlled HTML into email templates without sanitization."
+  ],
+  "patterns": [
+    {
+      "id": "react-email-templates",
+      "name": "React Email templates",
+      "description": "Author email templates as React components and render them with the React Email package."
+    },
+    {
+      "id": "transactional-send",
+      "name": "Transactional send",
+      "description": "Send one-off transactional emails (welcome, receipt, password reset) from a server action or route handler."
+    },
+    {
+      "id": "delivery-webhook",
+      "name": "Delivery webhook",
+      "description": "Receive email.delivered / bounced / complained events and update user state."
+    }
+  ],
+  "sdk": {
+    "npm": "resend"
+  },
+  "pairings": ["clerk", "stripe", "supabase"]
+}

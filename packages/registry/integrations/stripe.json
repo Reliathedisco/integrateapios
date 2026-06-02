@@ -1,0 +1,53 @@
+{
+  "id": "stripe",
+  "name": "Stripe",
+  "tagline": "Payments, subscriptions, and billing infrastructure.",
+  "categories": ["billing", "payments", "subscriptions"],
+  "docs": [
+    "https://docs.stripe.com/checkout",
+    "https://docs.stripe.com/billing/subscriptions/overview",
+    "https://docs.stripe.com/webhooks",
+    "https://docs.stripe.com/customer-management"
+  ],
+  "env": [
+    "STRIPE_SECRET_KEY",
+    "NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY",
+    "STRIPE_WEBHOOK_SECRET"
+  ],
+  "security": [
+    "Never expose STRIPE_SECRET_KEY in client components.",
+    "Always verify webhook signatures with the official SDK.",
+    "Treat webhooks as the source of truth for subscription state, not success_url.",
+    "Use restricted API keys (rk_) for server tasks that don't need full secret-key scope.",
+    "Set up a separate webhook secret per environment.",
+    "Never log raw payment payloads — Stripe IDs only."
+  ],
+  "patterns": [
+    {
+      "id": "checkout-session",
+      "name": "Hosted Checkout",
+      "description": "Create a Checkout Session server-side, redirect the user, handle completion via webhook."
+    },
+    {
+      "id": "customer-portal",
+      "name": "Customer Portal",
+      "description": "Generate a Billing Portal session so customers can self-serve subscription changes and invoices."
+    },
+    {
+      "id": "webhook-sync",
+      "name": "Webhook-driven sync",
+      "description": "Listen to customer.subscription.* and invoice.* events and sync state into your own database."
+    },
+    {
+      "id": "payment-element",
+      "name": "Embedded Payment Element",
+      "description": "Use the Payment Element for an in-app checkout when redirecting away from your domain isn't acceptable."
+    }
+  ],
+  "sdk": {
+    "npm": "stripe",
+    "ruby": "stripe",
+    "python": "stripe"
+  },
+  "pairings": ["clerk", "supabase", "resend"]
+}

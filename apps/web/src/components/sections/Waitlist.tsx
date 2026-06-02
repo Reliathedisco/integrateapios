@@ -1,0 +1,85 @@
+"use client";
+
+import { useState } from "react";
+import { ArrowRight } from "lucide-react";
+
+export function Waitlist() {
+  const [email, setEmail] = useState("");
+  const [status, setStatus] = useState<"idle" | "submitted">("idle");
+
+  function handleSubmit(e: React.FormEvent) {
+    e.preventDefault();
+    if (!email) return;
+    setStatus("submitted");
+  }
+
+  return (
+    <section
+      id="waitlist"
+      className="border-t border-[var(--color-border)]"
+    >
+      <div className="mx-auto max-w-6xl px-6 py-28">
+        <div className="rounded-2xl border border-[var(--color-border)] bg-[var(--color-subtle)] p-10 sm:p-16 relative overflow-hidden">
+          <div
+            aria-hidden
+            className="pointer-events-none absolute -top-24 left-1/2 -translate-x-1/2 h-[320px] w-[640px] bg-[radial-gradient(closest-side,rgba(0,0,0,0.08),transparent)] dark:bg-[radial-gradient(closest-side,rgba(255,255,255,0.1),transparent)]"
+          />
+
+          <div className="relative flex flex-col items-start gap-6 max-w-2xl">
+            <div className="text-sm font-mono text-[var(--color-muted)]">
+              05 — get the build
+            </div>
+            <h2 className="text-4xl sm:text-5xl font-semibold tracking-tight text-balance leading-[1.1]">
+              Be the first to ship integrations
+              <br className="hidden sm:block" />
+              <span className="text-[var(--color-muted)]">
+                without uploading your code.
+              </span>
+            </h2>
+            <p className="text-lg text-[var(--color-muted-foreground)] text-pretty">
+              We&apos;re building in public. Drop your email to get the first
+              desktop build, the registry preview, and the launch announcement.
+            </p>
+
+            {status === "idle" ? (
+              <form
+                onSubmit={handleSubmit}
+                className="w-full max-w-md flex flex-col sm:flex-row gap-2"
+              >
+                <label htmlFor="email" className="sr-only">
+                  Email address
+                </label>
+                <input
+                  id="email"
+                  type="email"
+                  required
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  placeholder="you@yourdomain.com"
+                  className="flex-1 rounded-md border border-[var(--color-border)] bg-[var(--color-background)] px-4 py-2.5 text-sm outline-none focus:ring-2 focus:ring-[var(--color-foreground)]/15 focus:border-[var(--color-foreground)]/30"
+                />
+                <button
+                  type="submit"
+                  className="inline-flex items-center justify-center gap-2 rounded-md bg-[var(--color-foreground)] text-[var(--color-background)] px-4 py-2.5 text-sm font-medium hover:opacity-90 transition-opacity shadow-sm"
+                >
+                  Notify me
+                  <ArrowRight className="size-4" />
+                </button>
+              </form>
+            ) : (
+              <div className="rounded-md border border-[var(--color-border)] bg-[var(--color-background)] px-4 py-3 text-sm">
+                You&apos;re on the list. We&apos;ll email you when the first
+                build ships.
+              </div>
+            )}
+
+            <p className="text-xs text-[var(--color-muted)] mt-2">
+              We store your email only. No tracking, no marketing list resale,
+              no surprise newsletters.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}

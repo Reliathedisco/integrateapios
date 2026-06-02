@@ -1,0 +1,22 @@
+{
+  "name": "integrateapios",
+  "version": "0.0.0",
+  "private": true,
+  "description": "The local-first AI integration console for developers. Your code stays yours.",
+  "packageManager": "pnpm@10.18.0",
+  "engines": {
+    "node": ">=20.0.0"
+  },
+  "scripts": {
+    "build": "turbo run build",
+    "dev": "turbo run dev",
+    "lint": "turbo run lint",
+    "typecheck": "turbo run typecheck",
+    "clean": "turbo run clean && rm -rf node_modules .turbo"
+  },
+  "devDependencies": {
+    "turbo": "^2.5.0",
+    "typescript": "^5.6.3",
+    "@types/node": "^22.10.0"
+  }
+}
