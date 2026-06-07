@@ -1,23 +1,60 @@
 "use client";
 
 import { useState } from "react";
-import { ArrowRight } from "lucide-react";
+import { ArrowRight, Loader2 } from "lucide-react";
+
+type Status =
+  | { kind: "idle" }
+  | { kind: "submitting" }
+  | { kind: "success"; alreadySubscribed: boolean }
+  | { kind: "error"; message: string };
 
 export function Waitlist() {
   const [email, setEmail] = useState("");
-  const [status, setStatus] = useState<"idle" | "submitted">("idle");
+  const [status, setStatus] = useState<Status>({ kind: "idle" });
 
-  function handleSubmit(e: React.FormEvent) {
+  async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
-    if (!email) return;
-    setStatus("submitted");
+    if (!email || status.kind === "submitting") return;
+
+    setStatus({ kind: "submitting" });
+
+    try {
+      const res = await fetch("/api/waitlist", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email }),
+      });
+
+      const data: { ok?: boolean; error?: string; alreadySubscribed?: boolean } =
+        await res.json().catch(() => ({}));
+
+      if (res.ok && data.ok) {
+        setStatus({
+          kind: "success",
+          alreadySubscribed: data.alreadySubscribed === true,
+        });
+        return;
+      }
+
+      const message =
+        data.error === "invalid_email"
+          ? "That email doesn't look right. Try again."
+          : "Something broke on our end. Try again in a minute.";
+      setStatus({ kind: "error", message });
+    } catch {
+      setStatus({
+        kind: "error",
+        message: "Network error. Check your connection and try again.",
+      });
+    }
   }
 
+  const isSubmitting = status.kind === "submitting";
+  const isSuccess = status.kind === "success";
+
   return (
-    <section
-      id="waitlist"
-      className="border-t border-[var(--color-border)]"
-    >
+    <section id="waitlist" className="border-t border-[var(--color-border)]">
       <div className="mx-auto max-w-6xl px-6 py-28">
         <div className="rounded-2xl border border-[var(--color-border)] bg-[var(--color-subtle)] p-10 sm:p-16 relative overflow-hidden">
           <div
@@ -41,10 +78,11 @@ export function Waitlist() {
               desktop build, the registry preview, and the launch announcement.
             </p>
 
-            {status === "idle" ? (
+            {!isSuccess ? (
               <form
                 onSubmit={handleSubmit}
                 className="w-full max-w-md flex flex-col sm:flex-row gap-2"
+                noValidate
               >
                 <label htmlFor="email" className="sr-only">
                   Email address
@@ -53,23 +91,48 @@ export function Waitlist() {
                   id="email"
                   type="email"
                   required
+                  disabled={isSubmitting}
                   value={email}
-                  onChange={(e) => setEmail(e.target.value)}
+                  onChange={(e) => {
+                    setEmail(e.target.value);
+                    if (status.kind === "error") setStatus({ kind: "idle" });
+                  }}
                   placeholder="you@yourdomain.com"
-                  className="flex-1 rounded-md border border-[var(--color-border)] bg-[var(--color-background)] px-4 py-2.5 text-sm outline-none focus:ring-2 focus:ring-[var(--color-foreground)]/15 focus:border-[var(--color-foreground)]/30"
+                  aria-invalid={status.kind === "error"}
+                  className="flex-1 rounded-md border border-[var(--color-border)] bg-[var(--color-background)] px-4 py-2.5 text-sm outline-none focus:ring-2 focus:ring-[var(--color-foreground)]/15 focus:border-[var(--color-foreground)]/30 disabled:opacity-60"
                 />
                 <button
                   type="submit"
-                  className="inline-flex items-center justify-center gap-2 rounded-md bg-[var(--color-foreground)] text-[var(--color-background)] px-4 py-2.5 text-sm font-medium hover:opacity-90 transition-opacity shadow-sm"
+                  disabled={isSubmitting || !email}
+                  className="inline-flex items-center justify-center gap-2 rounded-md bg-[var(--color-foreground)] text-[var(--color-background)] px-4 py-2.5 text-sm font-medium hover:opacity-90 transition-opacity shadow-sm disabled:opacity-60"
                 >
-                  Notify me
-                  <ArrowRight className="size-4" />
+                  {isSubmitting ? (
+                    <>
+                      <Loader2 className="size-4 animate-spin" />
+                      Adding
+                    </>
+                  ) : (
+                    <>
+                      Notify me
+                      <ArrowRight className="size-4" />
+                    </>
+                  )}
                 </button>
               </form>
             ) : (
               <div className="rounded-md border border-[var(--color-border)] bg-[var(--color-background)] px-4 py-3 text-sm">
-                You&apos;re on the list. We&apos;ll email you when the first
-                build ships.
+                {status.alreadySubscribed
+                  ? "You're already on the list. We'll email you when the first build ships."
+                  : "You're on the list. We'll email you when the first build ships."}
+              </div>
+            )}
+
+            {status.kind === "error" && (
+              <div
+                role="alert"
+                className="text-sm text-red-500 dark:text-red-400"
+              >
+                {status.message}
               </div>
             )}
 
