@@ -12,9 +12,9 @@ export function Footer() {
               <Image
                 src="/wordmark.png"
                 alt="IntegrateAPI OS"
-                width={544}
-                height={182}
-                className="h-9 w-auto select-none"
+                width={890}
+                height={115}
+                className="h-7 sm:h-8 w-auto select-none"
               />
             </Link>
             <p className="text-[var(--color-muted-foreground)] max-w-sm">

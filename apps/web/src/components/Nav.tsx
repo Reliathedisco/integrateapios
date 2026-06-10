@@ -14,10 +14,10 @@ export function Nav() {
           <Image
             src="/wordmark.png"
             alt="IntegrateAPI OS"
-            width={544}
-            height={182}
+            width={890}
+            height={115}
             priority
-            className="h-7 w-auto select-none"
+            className="h-5 sm:h-6 w-auto select-none"
           />
         </Link>
 

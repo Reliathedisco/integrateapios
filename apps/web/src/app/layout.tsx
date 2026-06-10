@@ -32,8 +32,8 @@ export const metadata: Metadata = {
     images: [
       {
         url: "/wordmark.png",
-        width: 544,
-        height: 182,
+        width: 890,
+        height: 115,
         alt: "IntegrateAPI OS",
       },
     ],
