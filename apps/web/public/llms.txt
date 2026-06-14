@@ -1,0 +1,34 @@
+# IntegrateAPI OS
+
+> The local-first AI integration console for developers. A desktop application
+> that helps developers connect Stripe, Clerk, Resend, Supabase, OpenAI, and
+> hundreds of other services without uploading their code or trusting a
+> third-party cloud. Users bring their own AI provider key (OpenAI, Anthropic,
+> Gemini, or local LLMs via Ollama). No repo uploads. No cloud storage.
+> No training on user data. Built by Reli Studio.
+
+IntegrateAPI OS is in active development. The product runs entirely on the
+user's machine — there is no hosted IntegrateAPI cloud or backend service.
+The integration registry, planner, and AI tunnel all execute locally.
+
+## Core
+
+- [Homepage](https://integrateapios.com): Product overview, the trust model, how the local-first flow works, and the waitlist.
+- [GitHub repository](https://github.com/Reliathedisco/integrateapios): Public source code, issue tracker, and documentation.
+- [Roadmap](https://github.com/Reliathedisco/integrateapios/blob/main/ROADMAP.md): The four-phase development plan with milestones and exit criteria.
+- [README](https://github.com/Reliathedisco/integrateapios/blob/main/README.md): Quick start, stack overview, and system framing.
+
+## Architectural decisions
+
+- [ADR 0001 — Tauri 2 as desktop shell](https://github.com/Reliathedisco/integrateapios/blob/main/docs/adr/0001-tauri-2-desktop-shell.md): Why Tauri 2 over Electron or web-only.
+- [ADR 0002 — BYOK only, no proxied AI](https://github.com/Reliathedisco/integrateapios/blob/main/docs/adr/0002-byok-only.md): Why the product requires users to bring their own AI provider key.
+- [ADR 0003 — No telemetry by default](https://github.com/Reliathedisco/integrateapios/blob/main/docs/adr/0003-no-telemetry.md): Why the product ships with zero outbound traffic except the user's chosen AI provider.
+- [ADR 0004 — Registry as versioned JSON files](https://github.com/Reliathedisco/integrateapios/blob/main/docs/adr/0004-registry-as-json.md): Why the integration registry is shipped as JSON files in the repo, not a hosted database.
+
+## Updates
+
+- [Build log on X](https://x.com/Integrateapi): Public development updates and build-in-public posts.
+
+## About
+
+- [Reli Studio](https://reli.studio): Parent studio building IntegrateAPI OS. A productized AI consultancy run by Reli (one person, building in the open).
