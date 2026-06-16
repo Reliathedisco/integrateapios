@@ -90,6 +90,7 @@ export function Waitlist() {
                 <input
                   id="email"
                   type="email"
+                  name="email"
                   required
                   disabled={isSubmitting}
                   value={email}
@@ -99,6 +100,10 @@ export function Waitlist() {
                   }}
                   placeholder="you@yourdomain.com"
                   aria-invalid={status.kind === "error"}
+                  autoComplete="email"
+                  inputMode="email"
+                  spellCheck={false}
+                  maxLength={254}
                   className="flex-1 rounded-md border border-[var(--color-border)] bg-[var(--color-background)] px-4 py-2.5 text-sm outline-none focus:ring-2 focus:ring-[var(--color-foreground)]/15 focus:border-[var(--color-foreground)]/30 disabled:opacity-60"
                 />
                 <button

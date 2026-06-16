@@ -39,7 +39,7 @@ export function Hero() {
             <Link
               href={GITHUB_URL}
               target="_blank"
-              rel="noreferrer"
+              rel="noopener noreferrer"
               className="inline-flex items-center gap-2 rounded-md border border-[var(--color-border)] bg-[var(--color-background)] px-4 py-2.5 text-sm font-medium hover:bg-[var(--color-subtle)] transition-colors"
             >
               <Github className="size-4" />

@@ -53,7 +53,7 @@ export function Footer() {
             <Link
               href={GITHUB_URL}
               target="_blank"
-              rel="noreferrer"
+              rel="noopener noreferrer"
               className="text-[var(--color-muted-foreground)] hover:text-[var(--color-foreground)] transition-colors"
             >
               GitHub
@@ -61,7 +61,7 @@ export function Footer() {
             <Link
               href={X_URL}
               target="_blank"
-              rel="noreferrer"
+              rel="noopener noreferrer"
               className="text-[var(--color-muted-foreground)] hover:text-[var(--color-foreground)] transition-colors"
             >
               Build log on X

@@ -37,7 +37,7 @@ export function Nav() {
           <Link
             href={GITHUB_URL}
             target="_blank"
-            rel="noreferrer"
+            rel="noopener noreferrer"
             className="text-[var(--color-muted)] hover:text-[var(--color-foreground)] transition-colors"
           >
             GitHub
