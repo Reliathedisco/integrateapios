@@ -1,0 +1,114 @@
+{
+  "id": "klaviyo",
+  "name": "Klaviyo",
+  "tagline": "Marketing automation for ecommerce — email and SMS flows, segments, profiles.",
+  "categories": ["marketing", "email", "automation"],
+  "docs": [
+    "https://developers.klaviyo.com/en/reference/api_overview",
+    "https://developers.klaviyo.com/en/reference/events_api",
+    "https://developers.klaviyo.com/en/docs/webhooks_overview",
+    "https://developers.klaviyo.com/en/reference/profiles_api"
+  ],
+  "env": [
+    "KLAVIYO_API_KEY"
+  ],
+  "security": [
+    "Private API keys (pk_…) are server-only; public site keys (no prefix) are safe in client tracking but limited in scope.",
+    "Scope API keys to specific resources (events, profiles, lists) instead of using all-access keys.",
+    "Klaviyo rate limits aggressively — implement exponential backoff on 429 responses.",
+    "Use server-side events for source-of-truth user behavior; client tracking is for top-of-funnel only."
+  ],
+  "patterns": [
+    {
+      "id": "events-driven-flows",
+      "name": "Event-driven flows",
+      "description": "POST custom events to /events to trigger Klaviyo Flows for that profile."
+    },
+    {
+      "id": "list-membership-sync",
+      "name": "List membership sync",
+      "description": "Add/remove profiles from lists based on external system state."
+    },
+    {
+      "id": "profile-properties",
+      "name": "Profile property sync",
+      "description": "Update profile custom properties for segmentation."
+    }
+  ],
+  "sdk": {
+    "npm": "klaviyo-api"
+  },
+  "pairings": ["shopify", "stripe", "resend"],
+  "triggers": [
+    {
+      "id": "profile.created",
+      "name": "Profile created",
+      "description": "Fires when a new profile is created.",
+      "delivery": "webhook"
+    },
+    {
+      "id": "list.subscribed",
+      "name": "Profile subscribed to list",
+      "description": "Fires when a profile opts in to a list.",
+      "delivery": "webhook"
+    },
+    {
+      "id": "list.unsubscribed",
+      "name": "Profile unsubscribed",
+      "description": "Fires when a profile unsubscribes from a list.",
+      "delivery": "webhook"
+    },
+    {
+      "id": "email.opened",
+      "name": "Email opened",
+      "description": "Fires when a profile opens a Klaviyo-sent email.",
+      "delivery": "webhook"
+    },
+    {
+      "id": "email.clicked",
+      "name": "Email link clicked",
+      "description": "Fires when a profile clicks a link in a Klaviyo email.",
+      "delivery": "webhook"
+    }
+  ],
+  "actions": [
+    {
+      "id": "add_to_list",
+      "name": "Add profile to list",
+      "description": "Subscribe a profile to a Klaviyo list.",
+      "inputsHint": ["list_id", "email_or_profile_id"]
+    },
+    {
+      "id": "remove_from_list",
+      "name": "Remove profile from list",
+      "description": "Unsubscribe a profile from a list.",
+      "inputsHint": ["list_id", "email_or_profile_id"]
+    },
+    {
+      "id": "track_event",
+      "name": "Track event",
+      "description": "POST a custom event to /events for a profile — triggers flows.",
+      "inputsHint": ["metric_name", "profile", "properties?"]
+    },
+    {
+      "id": "update_profile",
+      "name": "Update profile properties",
+      "description": "Set custom properties on a profile.",
+      "inputsHint": ["profile_id_or_email", "properties"]
+    },
+    {
+      "id": "trigger_flow",
+      "name": "Trigger flow",
+      "description": "Manually trigger a flow for a profile (via the event that starts it).",
+      "inputsHint": ["flow_event_name", "profile"]
+    }
+  ],
+  "auth": [
+    {
+      "id": "klaviyo_api_key",
+      "type": "api_key",
+      "description": "Private API key (pk_…) used as Authorization: Klaviyo-API-Key header.",
+      "envHint": "KLAVIYO_API_KEY"
+    }
+  ]
+}

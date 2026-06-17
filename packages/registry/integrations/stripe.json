@@ -49,5 +49,89 @@
     "ruby": "stripe",
     "python": "stripe"
   },
-  "pairings": ["clerk", "supabase", "resend"]
+  "pairings": ["clerk", "supabase", "resend", "hubspot", "slack"],
+  "triggers": [
+    {
+      "id": "customer.created",
+      "name": "Customer created",
+      "description": "Fires when a new Customer record is created in Stripe.",
+      "delivery": "webhook"
+    },
+    {
+      "id": "customer.subscription.created",
+      "name": "Subscription created",
+      "description": "Fires when a customer starts a new subscription.",
+      "delivery": "webhook"
+    },
+    {
+      "id": "customer.subscription.deleted",
+      "name": "Subscription canceled",
+      "description": "Fires when a subscription is canceled (immediately or at period end).",
+      "delivery": "webhook"
+    },
+    {
+      "id": "invoice.paid",
+      "name": "Invoice paid",
+      "description": "Fires when an invoice is successfully paid.",
+      "delivery": "webhook"
+    },
+    {
+      "id": "invoice.payment_failed",
+      "name": "Invoice payment failed",
+      "description": "Fires when a recurring invoice payment fails — useful for dunning flows.",
+      "delivery": "webhook"
+    },
+    {
+      "id": "checkout.session.completed",
+      "name": "Checkout session completed",
+      "description": "Fires when a hosted Checkout Session is completed by the customer.",
+      "delivery": "webhook"
+    }
+  ],
+  "actions": [
+    {
+      "id": "create_customer",
+      "name": "Create customer",
+      "description": "Create a new Customer record.",
+      "inputsHint": ["email", "name", "metadata"]
+    },
+    {
+      "id": "create_subscription",
+      "name": "Create subscription",
+      "description": "Subscribe a customer to one or more prices.",
+      "inputsHint": ["customer_id", "price_ids"]
+    },
+    {
+      "id": "create_checkout_session",
+      "name": "Create checkout session",
+      "description": "Generate a hosted Checkout Session URL.",
+      "inputsHint": ["line_items", "success_url", "cancel_url"]
+    },
+    {
+      "id": "refund_charge",
+      "name": "Refund a charge",
+      "description": "Refund all or part of a previous charge.",
+      "inputsHint": ["charge_id", "amount?"]
+    },
+    {
+      "id": "send_invoice",
+      "name": "Send invoice",
+      "description": "Finalize a draft invoice and email it to the customer.",
+      "inputsHint": ["invoice_id"]
+    }
+  ],
+  "auth": [
+    {
+      "id": "stripe_api_key",
+      "type": "api_key",
+      "description": "Server-side API key (sk_live_… or rk_… restricted key). Required for all Stripe API calls.",
+      "envHint": "STRIPE_SECRET_KEY"
+    },
+    {
+      "id": "stripe_webhook_secret",
+      "type": "webhook_secret",
+      "description": "Webhook signing secret to verify incoming Stripe webhook events.",
+      "envHint": "STRIPE_WEBHOOK_SECRET"
+    }
+  ]
 }

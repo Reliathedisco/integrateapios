@@ -1,0 +1,147 @@
+{
+  "id": "github",
+  "name": "GitHub",
+  "tagline": "Source control, issues, pull requests, releases, actions.",
+  "categories": ["developer-tools", "automation"],
+  "docs": [
+    "https://docs.github.com/en/rest",
+    "https://docs.github.com/en/webhooks/about-webhooks",
+    "https://docs.github.com/en/apps/creating-github-apps",
+    "https://docs.github.com/en/actions/using-workflows/events-that-trigger-workflows"
+  ],
+  "env": [
+    "GITHUB_TOKEN",
+    "GITHUB_APP_ID",
+    "GITHUB_APP_PRIVATE_KEY",
+    "GITHUB_WEBHOOK_SECRET"
+  ],
+  "security": [
+    "Personal access tokens (PATs) are user-scoped — prefer GitHub Apps for production integrations.",
+    "Verify webhook signatures with the X-Hub-Signature-256 header and your GITHUB_WEBHOOK_SECRET.",
+    "Use fine-grained PATs over classic PATs — scope them to specific repos and permissions.",
+    "Never log webhook payloads that include code diffs — they may contain secrets pushed by users."
+  ],
+  "patterns": [
+    {
+      "id": "pr-notifier",
+      "name": "PR notifier",
+      "description": "Listen to pull_request events and post summaries to Slack/Discord."
+    },
+    {
+      "id": "issue-triage",
+      "name": "Issue triage automation",
+      "description": "Auto-label, assign, or close issues based on content via webhooks."
+    },
+    {
+      "id": "release-publisher",
+      "name": "Release publisher",
+      "description": "On release.published, push artifacts or notify external systems."
+    }
+  ],
+  "sdk": {
+    "npm": "@octokit/rest",
+    "python": "PyGithub"
+  },
+  "pairings": ["slack", "discord", "notion", "linear"],
+  "triggers": [
+    {
+      "id": "push",
+      "name": "Push to repository",
+      "description": "Fires on any push to any branch.",
+      "delivery": "webhook"
+    },
+    {
+      "id": "pull_request.opened",
+      "name": "Pull request opened",
+      "description": "Fires when a new PR is opened.",
+      "delivery": "webhook"
+    },
+    {
+      "id": "pull_request.merged",
+      "name": "Pull request merged",
+      "description": "Fires when a PR is merged into its base branch.",
+      "delivery": "webhook"
+    },
+    {
+      "id": "issue.opened",
+      "name": "Issue opened",
+      "description": "Fires when a new issue is created.",
+      "delivery": "webhook"
+    },
+    {
+      "id": "issue.closed",
+      "name": "Issue closed",
+      "description": "Fires when an issue is closed.",
+      "delivery": "webhook"
+    },
+    {
+      "id": "release.published",
+      "name": "Release published",
+      "description": "Fires when a release transitions from draft to published.",
+      "delivery": "webhook"
+    },
+    {
+      "id": "workflow_run.completed",
+      "name": "Workflow run completed",
+      "description": "Fires when a GitHub Actions workflow run finishes (success or failure).",
+      "delivery": "webhook"
+    }
+  ],
+  "actions": [
+    {
+      "id": "create_issue",
+      "name": "Create issue",
+      "description": "Open a new issue in a repository.",
+      "inputsHint": ["owner", "repo", "title", "body?", "labels?"]
+    },
+    {
+      "id": "comment_on_issue",
+      "name": "Comment on issue or PR",
+      "description": "Add a comment to an existing issue or pull request.",
+      "inputsHint": ["owner", "repo", "issue_number", "body"]
+    },
+    {
+      "id": "create_pull_request",
+      "name": "Create pull request",
+      "description": "Open a new PR from a branch.",
+      "inputsHint": ["owner", "repo", "head", "base", "title", "body?"]
+    },
+    {
+      "id": "merge_pull_request",
+      "name": "Merge pull request",
+      "description": "Merge an open PR.",
+      "inputsHint": ["owner", "repo", "pull_number", "merge_method?"]
+    },
+    {
+      "id": "create_release",
+      "name": "Create release",
+      "description": "Publish a new release with optional assets.",
+      "inputsHint": ["owner", "repo", "tag_name", "name?", "body?"]
+    },
+    {
+      "id": "dispatch_workflow",
+      "name": "Dispatch workflow",
+      "description": "Manually trigger a workflow_dispatch GitHub Actions workflow.",
+      "inputsHint": ["owner", "repo", "workflow_id", "ref", "inputs?"]
+    }
+  ],
+  "auth": [
+    {
+      "id": "github_token",
+      "type": "bearer_token",
+      "description": "Personal access token or app installation token used as Authorization: Bearer.",
+      "envHint": "GITHUB_TOKEN"
+    },
+    {
+      "id": "github_app_installation",
+      "type": "oauth",
+      "description": "GitHub App installation — preferred for production multi-tenant integrations."
+    },
+    {
+      "id": "github_webhook_secret",
+      "type": "webhook_secret",
+      "description": "HMAC secret used to verify webhook deliveries.",
+      "envHint": "GITHUB_WEBHOOK_SECRET"
+    }
+  ]
+}

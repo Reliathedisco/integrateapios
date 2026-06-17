@@ -1,0 +1,128 @@
+{
+  "id": "slack",
+  "name": "Slack",
+  "tagline": "Team messaging, channels, and notifications.",
+  "categories": ["messaging", "productivity"],
+  "docs": [
+    "https://api.slack.com/start",
+    "https://api.slack.com/messaging/sending",
+    "https://api.slack.com/apis/events-api",
+    "https://api.slack.com/messaging/webhooks"
+  ],
+  "env": [
+    "SLACK_BOT_TOKEN",
+    "SLACK_SIGNING_SECRET",
+    "SLACK_WEBHOOK_URL"
+  ],
+  "security": [
+    "Verify Slack request signatures (v0) using SLACK_SIGNING_SECRET on every incoming Events API request.",
+    "Use bot tokens (xoxb-) for app actions; never expose user tokens (xoxp-).",
+    "Scope OAuth grants narrowly — chat:write is enough for most notifier bots.",
+    "Use Incoming Webhooks only for low-risk one-way notifications, not for sensitive flows."
+  ],
+  "patterns": [
+    {
+      "id": "incoming-webhook",
+      "name": "Incoming webhook notifications",
+      "description": "Post messages to a single channel via a webhook URL — simplest pattern for alerts."
+    },
+    {
+      "id": "events-api",
+      "name": "Events API",
+      "description": "Receive workspace events (messages, mentions, reactions) via subscribed event types."
+    },
+    {
+      "id": "slash-commands",
+      "name": "Slash commands",
+      "description": "Build /commands that POST to your endpoint and respond with messages."
+    }
+  ],
+  "sdk": {
+    "npm": "@slack/web-api",
+    "python": "slack-sdk"
+  },
+  "pairings": ["github", "stripe", "hubspot", "discord", "shopify"],
+  "triggers": [
+    {
+      "id": "message.received",
+      "name": "Message in channel",
+      "description": "Fires when a new message is posted in a channel the bot is in.",
+      "delivery": "webhook"
+    },
+    {
+      "id": "app_mention",
+      "name": "Bot mentioned",
+      "description": "Fires when the bot is @-mentioned in a message.",
+      "delivery": "webhook"
+    },
+    {
+      "id": "reaction_added",
+      "name": "Reaction added",
+      "description": "Fires when an emoji reaction is added to a message.",
+      "delivery": "webhook"
+    },
+    {
+      "id": "member_joined_channel",
+      "name": "Member joined channel",
+      "description": "Fires when a user joins a channel the bot is in.",
+      "delivery": "webhook"
+    }
+  ],
+  "actions": [
+    {
+      "id": "send_message",
+      "name": "Send message to channel",
+      "description": "Post a message to a Slack channel.",
+      "inputsHint": ["channel", "text", "blocks?"]
+    },
+    {
+      "id": "send_dm",
+      "name": "Send direct message",
+      "description": "Send a DM to a user (opens an IM channel first).",
+      "inputsHint": ["user_id", "text"]
+    },
+    {
+      "id": "post_to_thread",
+      "name": "Reply in thread",
+      "description": "Post a message as a thread reply to a parent message.",
+      "inputsHint": ["channel", "thread_ts", "text"]
+    },
+    {
+      "id": "create_channel",
+      "name": "Create channel",
+      "description": "Create a new public or private channel.",
+      "inputsHint": ["name", "is_private?"]
+    },
+    {
+      "id": "react_to_message",
+      "name": "Add reaction",
+      "description": "Add an emoji reaction to a message.",
+      "inputsHint": ["channel", "timestamp", "name"]
+    }
+  ],
+  "auth": [
+    {
+      "id": "slack_bot_token",
+      "type": "bearer_token",
+      "description": "Bot user OAuth token (xoxb-…) for sending messages and using the Web API.",
+      "envHint": "SLACK_BOT_TOKEN"
+    },
+    {
+      "id": "slack_signing_secret",
+      "type": "webhook_secret",
+      "description": "Signing secret used to verify incoming Slack Events API requests.",
+      "envHint": "SLACK_SIGNING_SECRET"
+    },
+    {
+      "id": "slack_webhook_url",
+      "type": "api_key",
+      "description": "Incoming Webhook URL for posting to a single channel without OAuth.",
+      "envHint": "SLACK_WEBHOOK_URL"
+    },
+    {
+      "id": "slack_oauth",
+      "type": "oauth",
+      "description": "OAuth 2.0 for multi-workspace Slack apps."
+    }
+  ]
+}

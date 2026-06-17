@@ -41,5 +41,77 @@
   "sdk": {
     "npm": "resend"
   },
-  "pairings": ["clerk", "stripe", "supabase"]
+  "pairings": ["clerk", "stripe", "supabase", "hubspot"],
+  "triggers": [
+    {
+      "id": "email.delivered",
+      "name": "Email delivered",
+      "description": "Fires when a sent email is delivered to the recipient inbox.",
+      "delivery": "webhook"
+    },
+    {
+      "id": "email.bounced",
+      "name": "Email bounced",
+      "description": "Fires when an email bounces (hard or soft).",
+      "delivery": "webhook"
+    },
+    {
+      "id": "email.complained",
+      "name": "Email complained",
+      "description": "Fires when a recipient marks the email as spam.",
+      "delivery": "webhook"
+    },
+    {
+      "id": "email.opened",
+      "name": "Email opened",
+      "description": "Fires when a recipient opens the email (tracking pixel).",
+      "delivery": "webhook"
+    },
+    {
+      "id": "email.clicked",
+      "name": "Email link clicked",
+      "description": "Fires when a recipient clicks a tracked link in the email.",
+      "delivery": "webhook"
+    }
+  ],
+  "actions": [
+    {
+      "id": "send_email",
+      "name": "Send email",
+      "description": "Send a transactional email (HTML or React Email template).",
+      "inputsHint": ["from", "to", "subject", "html_or_react"]
+    },
+    {
+      "id": "add_to_audience",
+      "name": "Add contact to audience",
+      "description": "Add an email to a Resend Audience for newsletters/waitlists.",
+      "inputsHint": ["audience_id", "email"]
+    },
+    {
+      "id": "remove_from_audience",
+      "name": "Remove contact from audience",
+      "description": "Remove an email from a Resend Audience.",
+      "inputsHint": ["audience_id", "email"]
+    },
+    {
+      "id": "send_batch",
+      "name": "Send batch emails",
+      "description": "Send up to 100 emails in a single API call.",
+      "inputsHint": ["emails"]
+    }
+  ],
+  "auth": [
+    {
+      "id": "resend_api_key",
+      "type": "api_key",
+      "description": "Server-side API key (re_…) for the Resend REST API.",
+      "envHint": "RESEND_API_KEY"
+    },
+    {
+      "id": "resend_webhook_secret",
+      "type": "webhook_secret",
+      "description": "Svix webhook signing secret for verifying email event deliveries.",
+      "envHint": "RESEND_WEBHOOK_SECRET"
+    }
+  ]
 }

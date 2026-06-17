@@ -1,0 +1,113 @@
+{
+  "id": "airtable",
+  "name": "Airtable",
+  "tagline": "Spreadsheet-database hybrid — bases, tables, records, automations.",
+  "categories": ["database", "productivity", "automation"],
+  "docs": [
+    "https://airtable.com/developers/web/api/introduction",
+    "https://airtable.com/developers/web/api/webhooks-overview",
+    "https://airtable.com/developers/web/guides/personal-access-tokens"
+  ],
+  "env": [
+    "AIRTABLE_PERSONAL_ACCESS_TOKEN",
+    "AIRTABLE_BASE_ID"
+  ],
+  "security": [
+    "Personal Access Tokens (PATs) replaced legacy API keys — scope them per-base.",
+    "Use the minimum scopes (data.records:read vs write) needed for the integration.",
+    "Webhooks require subscribing via API and processing notifications via short polls (pull model).",
+    "Field IDs change if a field is renamed in some cases — prefer field IDs over names for stable integrations."
+  ],
+  "patterns": [
+    {
+      "id": "form-to-base",
+      "name": "Form to base",
+      "description": "Capture form submissions into an Airtable base as records."
+    },
+    {
+      "id": "base-as-cms",
+      "name": "Base as CMS",
+      "description": "Query an Airtable base from your app to serve content."
+    },
+    {
+      "id": "webhook-polling",
+      "name": "Webhook + polling",
+      "description": "Subscribe to a webhook via API, then poll /payloads to retrieve change deltas."
+    }
+  ],
+  "sdk": {
+    "npm": "airtable"
+  },
+  "pairings": ["openai", "slack", "notion"],
+  "triggers": [
+    {
+      "id": "record.created",
+      "name": "Record created",
+      "description": "Fires when a new record is added to a table (via webhook subscription).",
+      "delivery": "webhook"
+    },
+    {
+      "id": "record.updated",
+      "name": "Record updated",
+      "description": "Fires when a record's fields change.",
+      "delivery": "webhook"
+    },
+    {
+      "id": "record.deleted",
+      "name": "Record deleted",
+      "description": "Fires when a record is deleted.",
+      "delivery": "webhook"
+    },
+    {
+      "id": "view.entered",
+      "name": "Record enters view",
+      "description": "Fires when a record's properties change such that it now matches a view's filter.",
+      "delivery": "webhook"
+    }
+  ],
+  "actions": [
+    {
+      "id": "create_record",
+      "name": "Create record",
+      "description": "Create one or more records in a table.",
+      "inputsHint": ["base_id", "table_id_or_name", "fields"]
+    },
+    {
+      "id": "update_record",
+      "name": "Update record",
+      "description": "Update fields on an existing record.",
+      "inputsHint": ["base_id", "table_id_or_name", "record_id", "fields"]
+    },
+    {
+      "id": "delete_record",
+      "name": "Delete record",
+      "description": "Delete a record by ID.",
+      "inputsHint": ["base_id", "table_id_or_name", "record_id"]
+    },
+    {
+      "id": "list_records",
+      "name": "List records",
+      "description": "Query records from a table with optional filtering and sorting.",
+      "inputsHint": ["base_id", "table_id_or_name", "filter_by_formula?", "max_records?"]
+    },
+    {
+      "id": "find_record",
+      "name": "Find record",
+      "description": "Get a single record by ID.",
+      "inputsHint": ["base_id", "table_id_or_name", "record_id"]
+    }
+  ],
+  "auth": [
+    {
+      "id": "airtable_personal_access_token",
+      "type": "bearer_token",
+      "description": "Personal Access Token used as Authorization: Bearer. Scoped per-base.",
+      "envHint": "AIRTABLE_PERSONAL_ACCESS_TOKEN"
+    },
+    {
+      "id": "airtable_oauth",
+      "type": "oauth",
+      "description": "OAuth 2.0 for multi-tenant Airtable apps."
+    }
+  ]
+}

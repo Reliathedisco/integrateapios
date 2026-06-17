@@ -46,5 +46,77 @@
   "sdk": {
     "npm": "@supabase/supabase-js"
   },
-  "pairings": ["clerk", "stripe", "resend"]
+  "pairings": ["clerk", "stripe", "resend"],
+  "triggers": [
+    {
+      "id": "row.inserted",
+      "name": "Row inserted",
+      "description": "Fires on INSERT into a table (via Database Webhooks or Realtime).",
+      "delivery": "stream"
+    },
+    {
+      "id": "row.updated",
+      "name": "Row updated",
+      "description": "Fires on UPDATE to a table.",
+      "delivery": "stream"
+    },
+    {
+      "id": "row.deleted",
+      "name": "Row deleted",
+      "description": "Fires on DELETE from a table.",
+      "delivery": "stream"
+    },
+    {
+      "id": "auth.user.signed_up",
+      "name": "User signed up",
+      "description": "Fires when a new Supabase Auth user is created.",
+      "delivery": "webhook"
+    }
+  ],
+  "actions": [
+    {
+      "id": "insert_row",
+      "name": "Insert row",
+      "description": "Insert one or more rows into a table.",
+      "inputsHint": ["table", "rows"]
+    },
+    {
+      "id": "update_row",
+      "name": "Update row",
+      "description": "Update rows matching a filter.",
+      "inputsHint": ["table", "filter", "values"]
+    },
+    {
+      "id": "delete_row",
+      "name": "Delete row",
+      "description": "Delete rows matching a filter.",
+      "inputsHint": ["table", "filter"]
+    },
+    {
+      "id": "query_table",
+      "name": "Query table",
+      "description": "Select rows from a table with optional filters.",
+      "inputsHint": ["table", "filter?", "columns?"]
+    },
+    {
+      "id": "upload_file",
+      "name": "Upload file to storage",
+      "description": "Upload a file to a Supabase Storage bucket.",
+      "inputsHint": ["bucket", "path", "file"]
+    }
+  ],
+  "auth": [
+    {
+      "id": "supabase_anon_key",
+      "type": "api_key",
+      "description": "Public anon key (safe in client; RLS enforces access).",
+      "envHint": "NEXT_PUBLIC_SUPABASE_ANON_KEY"
+    },
+    {
+      "id": "supabase_service_role_key",
+      "type": "service_role",
+      "description": "Service-role key that bypasses RLS. Server-only.",
+      "envHint": "SUPABASE_SERVICE_ROLE_KEY"
+    }
+  ]
 }

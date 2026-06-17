@@ -1,0 +1,112 @@
+{
+  "id": "notion",
+  "name": "Notion",
+  "tagline": "Docs, databases, and knowledge management.",
+  "categories": ["productivity", "database"],
+  "docs": [
+    "https://developers.notion.com/docs/getting-started",
+    "https://developers.notion.com/reference/intro",
+    "https://developers.notion.com/docs/authorization"
+  ],
+  "env": [
+    "NOTION_INTEGRATION_TOKEN"
+  ],
+  "security": [
+    "Internal integrations have access only to pages/databases explicitly shared with them.",
+    "Public integrations use OAuth and require a redirect URI configured in your integration settings.",
+    "Tokens are scoped per workspace — rotate if a workspace's access is revoked.",
+    "Notion has no native webhooks for free; polling or third-party watchers are required (or use Notion Webhooks if on a paid plan)."
+  ],
+  "patterns": [
+    {
+      "id": "db-as-source",
+      "name": "Database as source of truth",
+      "description": "Treat a Notion database as a lightweight CMS — query rows from your app."
+    },
+    {
+      "id": "page-creator",
+      "name": "Page creator",
+      "description": "Programmatically create pages or database rows for capture flows (forms, AI summaries)."
+    },
+    {
+      "id": "block-append",
+      "name": "Append blocks",
+      "description": "Append blocks to an existing page for logging or activity feeds."
+    }
+  ],
+  "sdk": {
+    "npm": "@notionhq/client"
+  },
+  "pairings": ["slack", "discord", "github", "openai"],
+  "triggers": [
+    {
+      "id": "page.created",
+      "name": "Page created",
+      "description": "Fires when a new page is created (requires polling or paid Notion Webhooks).",
+      "delivery": "poll"
+    },
+    {
+      "id": "page.updated",
+      "name": "Page updated",
+      "description": "Fires when a page's content changes.",
+      "delivery": "poll"
+    },
+    {
+      "id": "database.row_added",
+      "name": "Database row added",
+      "description": "Fires when a new row is added to a database.",
+      "delivery": "poll"
+    },
+    {
+      "id": "database.row_updated",
+      "name": "Database row updated",
+      "description": "Fires when a database row's properties change.",
+      "delivery": "poll"
+    }
+  ],
+  "actions": [
+    {
+      "id": "create_page",
+      "name": "Create page",
+      "description": "Create a new page (standalone or as a child of a parent page/database).",
+      "inputsHint": ["parent", "properties", "children?"]
+    },
+    {
+      "id": "update_page",
+      "name": "Update page properties",
+      "description": "Update properties (title, tags, dates, etc.) on an existing page.",
+      "inputsHint": ["page_id", "properties"]
+    },
+    {
+      "id": "append_block",
+      "name": "Append blocks to page",
+      "description": "Append paragraph, heading, list, or code blocks to a page.",
+      "inputsHint": ["page_id", "blocks"]
+    },
+    {
+      "id": "query_database",
+      "name": "Query database",
+      "description": "Query a database with filters and sorts.",
+      "inputsHint": ["database_id", "filter?", "sorts?"]
+    },
+    {
+      "id": "add_database_row",
+      "name": "Add database row",
+      "description": "Create a new row in a database with typed property values.",
+      "inputsHint": ["database_id", "properties"]
+    }
+  ],
+  "auth": [
+    {
+      "id": "notion_integration_token",
+      "type": "bearer_token",
+      "description": "Internal integration token (secret_…). Authorization: Bearer.",
+      "envHint": "NOTION_INTEGRATION_TOKEN"
+    },
+    {
+      "id": "notion_oauth",
+      "type": "oauth",
+      "description": "OAuth 2.0 for public integrations distributed to other Notion workspaces."
+    }
+  ]
+}

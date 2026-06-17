@@ -48,5 +48,77 @@
   "sdk": {
     "npm": "@clerk/nextjs"
   },
-  "pairings": ["stripe", "supabase", "resend"]
+  "pairings": ["stripe", "supabase", "resend"],
+  "triggers": [
+    {
+      "id": "user.created",
+      "name": "User created",
+      "description": "Fires when a new user signs up.",
+      "delivery": "webhook"
+    },
+    {
+      "id": "user.updated",
+      "name": "User updated",
+      "description": "Fires when a user's profile changes.",
+      "delivery": "webhook"
+    },
+    {
+      "id": "user.deleted",
+      "name": "User deleted",
+      "description": "Fires when a user account is removed.",
+      "delivery": "webhook"
+    },
+    {
+      "id": "organization.created",
+      "name": "Organization created",
+      "description": "Fires when a new org is created (B2B apps).",
+      "delivery": "webhook"
+    },
+    {
+      "id": "session.created",
+      "name": "Session created",
+      "description": "Fires when a user starts a new session (sign-in).",
+      "delivery": "webhook"
+    }
+  ],
+  "actions": [
+    {
+      "id": "invite_user",
+      "name": "Invite user",
+      "description": "Send a Clerk invitation email to a new user.",
+      "inputsHint": ["email_address", "redirect_url?"]
+    },
+    {
+      "id": "update_user_metadata",
+      "name": "Update user metadata",
+      "description": "Set public or private metadata on a user.",
+      "inputsHint": ["user_id", "metadata"]
+    },
+    {
+      "id": "ban_user",
+      "name": "Ban user",
+      "description": "Lock a user out of all sessions.",
+      "inputsHint": ["user_id"]
+    },
+    {
+      "id": "create_organization",
+      "name": "Create organization",
+      "description": "Programmatically create an organization.",
+      "inputsHint": ["name", "created_by_user_id"]
+    }
+  ],
+  "auth": [
+    {
+      "id": "clerk_secret_key",
+      "type": "api_key",
+      "description": "Server-side secret key for Clerk's Backend API.",
+      "envHint": "CLERK_SECRET_KEY"
+    },
+    {
+      "id": "clerk_webhook_secret",
+      "type": "webhook_secret",
+      "description": "Svix signing secret for verifying Clerk webhook deliveries.",
+      "envHint": "CLERK_WEBHOOK_SECRET"
+    }
+  ]
 }

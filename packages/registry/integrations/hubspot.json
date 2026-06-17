@@ -1,0 +1,123 @@
+{
+  "id": "hubspot",
+  "name": "HubSpot",
+  "tagline": "CRM, marketing automation, and customer engagement.",
+  "categories": ["crm", "marketing", "automation"],
+  "docs": [
+    "https://developers.hubspot.com/docs/api/overview",
+    "https://developers.hubspot.com/docs/api/crm/contacts",
+    "https://developers.hubspot.com/docs/api/webhooks",
+    "https://developers.hubspot.com/docs/api/working-with-oauth"
+  ],
+  "env": [
+    "HUBSPOT_ACCESS_TOKEN",
+    "HUBSPOT_CLIENT_ID",
+    "HUBSPOT_CLIENT_SECRET",
+    "HUBSPOT_APP_ID"
+  ],
+  "security": [
+    "Use private app access tokens for server-to-server integrations; reserve OAuth for multi-tenant apps.",
+    "Verify HubSpot webhook signatures (v3) using the X-HubSpot-Signature-v3 header and your client secret.",
+    "Scope OAuth grants to the minimum object types you actually need.",
+    "Never log full contact properties — PII filtering at the boundary."
+  ],
+  "patterns": [
+    {
+      "id": "contact-sync",
+      "name": "Contact sync",
+      "description": "Mirror users from your auth/payments system into HubSpot Contacts on signup or purchase."
+    },
+    {
+      "id": "deal-pipeline",
+      "name": "Deal pipeline automation",
+      "description": "Create or move deals through pipeline stages in response to product events."
+    },
+    {
+      "id": "webhook-subscriptions",
+      "name": "Webhook subscriptions",
+      "description": "Subscribe to contact/deal/company change events for real-time updates."
+    }
+  ],
+  "sdk": {
+    "npm": "@hubspot/api-client",
+    "python": "hubspot-api-client"
+  },
+  "pairings": ["stripe", "slack", "resend", "shopify"],
+  "triggers": [
+    {
+      "id": "contact.created",
+      "name": "Contact created",
+      "description": "Fires when a new contact is added.",
+      "delivery": "webhook"
+    },
+    {
+      "id": "contact.updated",
+      "name": "Contact updated",
+      "description": "Fires when a contact property changes.",
+      "delivery": "webhook"
+    },
+    {
+      "id": "deal.created",
+      "name": "Deal created",
+      "description": "Fires when a new deal is created.",
+      "delivery": "webhook"
+    },
+    {
+      "id": "deal.stage_changed",
+      "name": "Deal stage changed",
+      "description": "Fires when a deal moves between pipeline stages.",
+      "delivery": "webhook"
+    },
+    {
+      "id": "company.created",
+      "name": "Company created",
+      "description": "Fires when a new company is added.",
+      "delivery": "webhook"
+    }
+  ],
+  "actions": [
+    {
+      "id": "create_contact",
+      "name": "Create contact",
+      "description": "Add a new contact to the CRM.",
+      "inputsHint": ["email", "firstname?", "lastname?", "properties?"]
+    },
+    {
+      "id": "update_contact",
+      "name": "Update contact",
+      "description": "Update properties on an existing contact.",
+      "inputsHint": ["contact_id_or_email", "properties"]
+    },
+    {
+      "id": "create_deal",
+      "name": "Create deal",
+      "description": "Open a new deal in a pipeline.",
+      "inputsHint": ["dealname", "amount?", "pipeline?", "dealstage?"]
+    },
+    {
+      "id": "update_deal",
+      "name": "Update deal",
+      "description": "Update properties on an existing deal.",
+      "inputsHint": ["deal_id", "properties"]
+    },
+    {
+      "id": "create_note",
+      "name": "Create note",
+      "description": "Attach a note to a contact, company, or deal.",
+      "inputsHint": ["object_type", "object_id", "body"]
+    }
+  ],
+  "auth": [
+    {
+      "id": "hubspot_private_app_token",
+      "type": "bearer_token",
+      "description": "Private app access token (single-tenant integrations).",
+      "envHint": "HUBSPOT_ACCESS_TOKEN"
+    },
+    {
+      "id": "hubspot_oauth",
+      "type": "oauth",
+      "description": "OAuth 2.0 for multi-tenant HubSpot apps installed by external HubSpot accounts."
+    }
+  ]
+}

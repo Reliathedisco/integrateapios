@@ -1,0 +1,91 @@
+{
+  "id": "openai",
+  "name": "OpenAI",
+  "tagline": "Large language models, embeddings, image generation, speech.",
+  "categories": ["ai"],
+  "docs": [
+    "https://platform.openai.com/docs/api-reference",
+    "https://platform.openai.com/docs/guides/text-generation",
+    "https://platform.openai.com/docs/guides/structured-outputs",
+    "https://platform.openai.com/docs/guides/embeddings"
+  ],
+  "env": [
+    "OPENAI_API_KEY",
+    "OPENAI_ORG_ID"
+  ],
+  "security": [
+    "API keys (sk-…) are user-scoped — restrict by creating project-scoped keys when possible.",
+    "Never embed keys in client-side code; always proxy through a server-side handler.",
+    "Use structured outputs (response_format: json_schema) when downstream code consumes the output programmatically.",
+    "Set usage limits at the project level — runaway loops can be expensive."
+  ],
+  "patterns": [
+    {
+      "id": "rag-pipeline",
+      "name": "RAG pipeline",
+      "description": "Embed documents, store in a vector DB, retrieve top-k, pass as context to chat completion."
+    },
+    {
+      "id": "structured-extraction",
+      "name": "Structured extraction",
+      "description": "Use response_format with a JSON schema to extract structured data from unstructured text."
+    },
+    {
+      "id": "agent-tool-use",
+      "name": "Agent tool use",
+      "description": "Define tools the model can call to take real-world actions."
+    }
+  ],
+  "sdk": {
+    "npm": "openai",
+    "python": "openai"
+  },
+  "pairings": ["airtable", "notion", "slack"],
+  "triggers": [],
+  "actions": [
+    {
+      "id": "chat_completion",
+      "name": "Chat completion",
+      "description": "Generate a text response from a prompt or conversation.",
+      "inputsHint": ["model", "messages", "response_format?", "tools?"]
+    },
+    {
+      "id": "generate_embedding",
+      "name": "Generate embedding",
+      "description": "Convert text to a vector embedding (for semantic search / RAG).",
+      "inputsHint": ["model", "input"]
+    },
+    {
+      "id": "generate_image",
+      "name": "Generate image",
+      "description": "Generate an image from a text prompt.",
+      "inputsHint": ["model", "prompt", "size?", "quality?"]
+    },
+    {
+      "id": "transcribe_audio",
+      "name": "Transcribe audio",
+      "description": "Speech-to-text via Whisper.",
+      "inputsHint": ["model", "file", "language?"]
+    },
+    {
+      "id": "generate_speech",
+      "name": "Generate speech",
+      "description": "Text-to-speech.",
+      "inputsHint": ["model", "input", "voice"]
+    },
+    {
+      "id": "moderation_check",
+      "name": "Moderation check",
+      "description": "Classify text for safety policy violations.",
+      "inputsHint": ["input"]
+    }
+  ],
+  "auth": [
+    {
+      "id": "openai_api_key",
+      "type": "api_key",
+      "description": "Bearer token API key. Server-side only.",
+      "envHint": "OPENAI_API_KEY"
+    }
+  ]
+}

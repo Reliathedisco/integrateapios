@@ -8,20 +8,24 @@
   "types": "./src/index.ts",
   "exports": {
     ".": "./src/index.ts",
-    "./planner": "./src/planner.ts",
-    "./session": "./src/session.ts",
-    "./ai": "./src/ai.ts"
+    "./planner": "./src/planner/index.ts",
+    "./providers": "./src/providers/index.ts",
+    "./types": "./src/types.ts"
   },
   "scripts": {
     "typecheck": "tsc --noEmit",
+    "test": "tsx --test test/**/*.test.ts",
+    "examples": "tsx scripts/run-examples.ts",
     "clean": "rm -rf dist .turbo"
   },
   "dependencies": {
     "@integrateapi/registry": "workspace:*",
-    "zod": "^3.23.8"
+    "zod": "^3.23.8",
+    "zod-to-json-schema": "^3.23.5"
   },
   "devDependencies": {
     "@types/node": "^22.10.0",
+    "tsx": "^4.19.2",
     "typescript": "^5.6.3"
   }
 }

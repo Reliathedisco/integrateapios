@@ -1,0 +1,135 @@
+{
+  "id": "shopify",
+  "name": "Shopify",
+  "tagline": "Ecommerce platform — orders, products, customers, inventory.",
+  "categories": ["ecommerce", "payments"],
+  "docs": [
+    "https://shopify.dev/docs/api/admin-rest",
+    "https://shopify.dev/docs/api/admin-graphql",
+    "https://shopify.dev/docs/apps/webhooks",
+    "https://shopify.dev/docs/apps/auth/oauth"
+  ],
+  "env": [
+    "SHOPIFY_ADMIN_API_TOKEN",
+    "SHOPIFY_API_KEY",
+    "SHOPIFY_API_SECRET",
+    "SHOPIFY_WEBHOOK_SECRET",
+    "SHOPIFY_SHOP_DOMAIN"
+  ],
+  "security": [
+    "Verify webhook HMAC using SHOPIFY_API_SECRET — Shopify-Hmac-Sha256 header.",
+    "Use Custom App admin tokens for single-store; OAuth for multi-store apps in the App Store.",
+    "Scope API access tokens to the minimum read_/write_ permissions needed.",
+    "Rotate admin API tokens periodically — Shopify stores them in plain text once issued."
+  ],
+  "patterns": [
+    {
+      "id": "order-fulfillment-webhook",
+      "name": "Order fulfillment webhook",
+      "description": "Subscribe to orders/create and orders/fulfilled webhooks to drive downstream automations."
+    },
+    {
+      "id": "inventory-sync",
+      "name": "Inventory sync",
+      "description": "Poll or subscribe to inventory_levels/update to keep external systems in sync."
+    },
+    {
+      "id": "customer-segmentation",
+      "name": "Customer segmentation",
+      "description": "Tag customers based on order history for downstream marketing tools."
+    }
+  ],
+  "sdk": {
+    "npm": "@shopify/admin-api-client"
+  },
+  "pairings": ["klaviyo", "stripe", "slack", "hubspot"],
+  "triggers": [
+    {
+      "id": "order.created",
+      "name": "Order created",
+      "description": "Fires when a new order is placed.",
+      "delivery": "webhook"
+    },
+    {
+      "id": "order.fulfilled",
+      "name": "Order fulfilled",
+      "description": "Fires when an order is marked as fulfilled.",
+      "delivery": "webhook"
+    },
+    {
+      "id": "order.cancelled",
+      "name": "Order cancelled",
+      "description": "Fires when an order is cancelled.",
+      "delivery": "webhook"
+    },
+    {
+      "id": "customer.created",
+      "name": "Customer created",
+      "description": "Fires when a new customer record is created in the store.",
+      "delivery": "webhook"
+    },
+    {
+      "id": "product.updated",
+      "name": "Product updated",
+      "description": "Fires when a product's details change.",
+      "delivery": "webhook"
+    },
+    {
+      "id": "inventory.low",
+      "name": "Inventory low",
+      "description": "Polled trigger — fires when a SKU drops below a threshold.",
+      "delivery": "poll"
+    }
+  ],
+  "actions": [
+    {
+      "id": "create_order",
+      "name": "Create order",
+      "description": "Programmatically create a new order.",
+      "inputsHint": ["line_items", "customer_id?", "shipping_address?"]
+    },
+    {
+      "id": "update_order",
+      "name": "Update order",
+      "description": "Update properties of an existing order.",
+      "inputsHint": ["order_id", "properties"]
+    },
+    {
+      "id": "cancel_order",
+      "name": "Cancel order",
+      "description": "Cancel an order and optionally refund.",
+      "inputsHint": ["order_id", "refund?"]
+    },
+    {
+      "id": "create_product",
+      "name": "Create product",
+      "description": "Add a new product to the catalog.",
+      "inputsHint": ["title", "variants", "vendor?"]
+    },
+    {
+      "id": "update_inventory",
+      "name": "Update inventory level",
+      "description": "Adjust the inventory count for a specific SKU/location.",
+      "inputsHint": ["inventory_item_id", "location_id", "available"]
+    }
+  ],
+  "auth": [
+    {
+      "id": "shopify_admin_token",
+      "type": "bearer_token",
+      "description": "Admin API access token (Custom App). Single-store.",
+      "envHint": "SHOPIFY_ADMIN_API_TOKEN"
+    },
+    {
+      "id": "shopify_oauth",
+      "type": "oauth",
+      "description": "OAuth 2.0 for multi-store apps distributed via the Shopify App Store."
+    },
+    {
+      "id": "shopify_webhook_secret",
+      "type": "webhook_secret",
+      "description": "API secret used to verify HMAC signatures on incoming webhooks.",
+      "envHint": "SHOPIFY_API_SECRET"
+    }
+  ]
+}

@@ -1,0 +1,122 @@
+{
+  "id": "discord",
+  "name": "Discord",
+  "tagline": "Community messaging — servers, channels, threads, bots.",
+  "categories": ["messaging", "productivity"],
+  "docs": [
+    "https://discord.com/developers/docs/intro",
+    "https://discord.com/developers/docs/resources/channel#create-message",
+    "https://discord.com/developers/docs/topics/oauth2",
+    "https://discord.com/developers/docs/resources/webhook"
+  ],
+  "env": [
+    "DISCORD_BOT_TOKEN",
+    "DISCORD_APPLICATION_ID",
+    "DISCORD_PUBLIC_KEY",
+    "DISCORD_WEBHOOK_URL"
+  ],
+  "security": [
+    "Bot tokens grant full bot privileges — keep server-only.",
+    "Verify interaction signatures using Ed25519 + DISCORD_PUBLIC_KEY on every incoming HTTP interaction.",
+    "Use slash commands over message-content scanning when possible — fewer permissions needed.",
+    "Webhook URLs are themselves secrets — anyone with the URL can post."
+  ],
+  "patterns": [
+    {
+      "id": "webhook-notifier",
+      "name": "Webhook notifier",
+      "description": "Use a Discord webhook URL to post messages to a single channel — no bot needed."
+    },
+    {
+      "id": "slash-commands",
+      "name": "Slash commands",
+      "description": "Build /commands using interactions endpoint and respond with embeds."
+    },
+    {
+      "id": "moderation-bot",
+      "name": "Moderation bot",
+      "description": "Subscribe to message events via gateway and apply automated actions."
+    }
+  ],
+  "sdk": {
+    "npm": "discord.js"
+  },
+  "pairings": ["github", "slack", "notion"],
+  "triggers": [
+    {
+      "id": "message.received",
+      "name": "Message received",
+      "description": "Fires when a message is sent in a guild channel the bot can see.",
+      "delivery": "stream"
+    },
+    {
+      "id": "member.joined",
+      "name": "Member joined server",
+      "description": "Fires when a new user joins a guild.",
+      "delivery": "stream"
+    },
+    {
+      "id": "reaction.added",
+      "name": "Reaction added",
+      "description": "Fires when an emoji reaction is added to a message.",
+      "delivery": "stream"
+    },
+    {
+      "id": "slash_command.invoked",
+      "name": "Slash command invoked",
+      "description": "Fires when a user invokes a registered slash command.",
+      "delivery": "webhook"
+    }
+  ],
+  "actions": [
+    {
+      "id": "send_message",
+      "name": "Send message to channel",
+      "description": "Post a message to a Discord channel.",
+      "inputsHint": ["channel_id", "content", "embeds?"]
+    },
+    {
+      "id": "send_dm",
+      "name": "Send direct message",
+      "description": "Open a DM channel with a user and send a message.",
+      "inputsHint": ["user_id", "content"]
+    },
+    {
+      "id": "create_channel",
+      "name": "Create channel",
+      "description": "Create a new channel in a guild.",
+      "inputsHint": ["guild_id", "name", "type"]
+    },
+    {
+      "id": "assign_role",
+      "name": "Assign role",
+      "description": "Add a role to a guild member.",
+      "inputsHint": ["guild_id", "user_id", "role_id"]
+    },
+    {
+      "id": "post_via_webhook",
+      "name": "Post via webhook",
+      "description": "POST a message to a channel using its Webhook URL.",
+      "inputsHint": ["webhook_url", "content", "username?", "embeds?"]
+    }
+  ],
+  "auth": [
+    {
+      "id": "discord_bot_token",
+      "type": "bearer_token",
+      "description": "Bot token used as Authorization: Bot <token> for the REST API and gateway.",
+      "envHint": "DISCORD_BOT_TOKEN"
+    },
+    {
+      "id": "discord_webhook_url",
+      "type": "api_key",
+      "description": "Webhook URL embedding its own auth — use for low-risk one-way notifications.",
+      "envHint": "DISCORD_WEBHOOK_URL"
+    },
+    {
+      "id": "discord_oauth",
+      "type": "oauth",
+      "description": "OAuth 2.0 for installing the bot to user-owned guilds."
+    }
+  ]
+}
