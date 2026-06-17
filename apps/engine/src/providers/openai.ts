@@ -21,7 +21,12 @@
 import { zodToJsonSchema } from "zod-to-json-schema";
 import type { AIProvider } from "../types";
 
-const DEFAULT_MODEL = process.env.OPENAI_MODEL ?? "gpt-4o-mini";
+// Safe in browsers — `process` may be undefined when bundled for the client.
+function safeEnv(key: string): string | undefined {
+  if (typeof process === "undefined" || !process.env) return undefined;
+  return process.env[key];
+}
+
 const DEFAULT_BASE_URL = "https://api.openai.com/v1";
 
 export interface OpenAIProviderOptions {
@@ -42,7 +47,7 @@ export class OpenAIProvider implements AIProvider {
   constructor(opts: OpenAIProviderOptions) {
     if (!opts.apiKey) throw new Error("OpenAIProvider: apiKey is required");
     this.apiKey = opts.apiKey;
-    this.model = opts.model ?? DEFAULT_MODEL;
+    this.model = opts.model ?? safeEnv("OPENAI_MODEL") ?? "gpt-4o-mini";
     this.baseUrl = opts.baseUrl ?? DEFAULT_BASE_URL;
     this.temperature = opts.temperature ?? 0.2;
   }

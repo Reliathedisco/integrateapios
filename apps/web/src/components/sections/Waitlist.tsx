@@ -64,7 +64,7 @@ export function Waitlist() {
 
           <div className="relative flex flex-col items-start gap-6 max-w-2xl">
             <div className="text-sm font-mono text-[var(--color-muted)]">
-              05 — get the build
+              06 — get the build
             </div>
             <h2 className="text-4xl sm:text-5xl font-semibold tracking-tight text-balance leading-[1.1]">
               Be the first to ship integrations

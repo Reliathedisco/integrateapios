@@ -16,7 +16,9 @@
     "react-dom": "^19.0.0",
     "clsx": "^2.1.1",
     "tailwind-merge": "^2.5.5",
-    "lucide-react": "^0.460.0"
+    "lucide-react": "^0.460.0",
+    "@integrateapi/engine": "workspace:*",
+    "@integrateapi/registry": "workspace:*"
   },
   "devDependencies": {
     "@types/node": "^22.10.0",

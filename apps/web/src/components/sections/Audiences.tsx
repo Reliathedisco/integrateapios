@@ -27,7 +27,7 @@ export function Audiences() {
       <div className="mx-auto max-w-6xl px-6 py-24">
         <div className="flex flex-col gap-4 mb-12">
           <div className="text-sm font-mono text-[var(--color-muted)]">
-            04 — who it&apos;s for
+            05 — who it&apos;s for
           </div>
           <h2 className="text-4xl sm:text-5xl font-semibold tracking-tight max-w-3xl text-balance">
             Built for people who ship.

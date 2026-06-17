@@ -35,6 +35,12 @@ export function Nav() {
             Trust
           </Link>
           <Link
+            href="#try-it-live"
+            className="text-[var(--color-muted)] hover:text-[var(--color-foreground)] transition-colors"
+          >
+            Try it
+          </Link>
+          <Link
             href={GITHUB_URL}
             target="_blank"
             rel="noopener noreferrer"

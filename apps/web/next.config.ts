@@ -19,6 +19,9 @@ const securityHeaders = [
 const nextConfig: NextConfig = {
   reactStrictMode: true,
   typedRoutes: true,
+  // Source-only workspace packages — Next.js needs to transpile their .ts
+  // files since they don't ship compiled output.
+  transpilePackages: ["@integrateapi/engine", "@integrateapi/registry"],
   turbopack: {
     root: path.resolve(process.cwd(), "../.."),
   },
