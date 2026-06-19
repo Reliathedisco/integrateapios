@@ -73,9 +73,24 @@ html {
 
 body {
   background-color: var(--color-background);
+  background-image: url("/sky.jpg");
+  background-size: cover;
+  background-position: center top;
+  background-attachment: fixed;
+  background-repeat: no-repeat;
   color: var(--color-foreground);
   font-family: var(--font-sans);
   font-feature-settings: "ss01", "cv11";
+}
+
+/*
+ * Dark mode: hide the sky image. Bright blue clouds behind dark sections
+ * looks like a leaky paint job; the solid dark background is correct.
+ */
+@media (prefers-color-scheme: dark) {
+  body {
+    background-image: none;
+  }
 }
 
 ::selection {
