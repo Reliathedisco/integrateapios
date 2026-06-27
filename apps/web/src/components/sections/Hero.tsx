@@ -29,10 +29,7 @@ export function Hero() {
           </p>
 
           <div className="flex flex-wrap items-center gap-3">
-            <Link
-              href="#waitlist"
-              className="inline-flex items-center gap-2 rounded-md bg-[var(--color-foreground)] text-[var(--color-background)] px-4 py-2.5 text-sm font-medium hover:opacity-90 transition-opacity shadow-sm"
-            >
+            <Link href="#waitlist" className="btn-brutal btn-blue">
               Join the waitlist
               <ArrowRight className="size-4" />
             </Link>
@@ -40,7 +37,7 @@ export function Hero() {
               href={GITHUB_URL}
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 rounded-md border border-[var(--color-border)] bg-[var(--color-background)] px-4 py-2.5 text-sm font-medium hover:bg-[var(--color-subtle)] transition-colors"
+              className="btn-brutal btn-yellow"
             >
               <Github className="size-4" />
               View on GitHub

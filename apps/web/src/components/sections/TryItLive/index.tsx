@@ -326,7 +326,7 @@ export function TryItLive() {
             <button
               type="submit"
               disabled={!canSubmit}
-              className="inline-flex items-center justify-center gap-2 rounded-md bg-[var(--color-foreground)] text-[var(--color-background)] px-4 py-2.5 text-sm font-medium hover:opacity-90 transition-opacity shadow-sm disabled:opacity-50 disabled:cursor-not-allowed"
+              className="btn-brutal btn-blue w-full"
             >
               {status.kind === "running" ? (
                 <>
