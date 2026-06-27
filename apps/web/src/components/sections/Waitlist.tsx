@@ -56,7 +56,7 @@ export function Waitlist() {
   return (
     <section id="waitlist" className="border-t border-[var(--color-border)]">
       <div className="mx-auto max-w-6xl px-6 py-28">
-        <div className="rounded-2xl border border-[var(--color-border)] bg-[var(--color-subtle)] p-10 sm:p-16 relative overflow-hidden">
+        <div className="rounded-none border-2 border-[var(--ink)] bg-[var(--color-subtle)] p-10 sm:p-16 relative overflow-hidden shadow-[8px_8px_0_0_var(--ink)]">
           <div
             aria-hidden
             className="pointer-events-none absolute -top-24 left-1/2 -translate-x-1/2 h-[320px] w-[640px] bg-[radial-gradient(closest-side,rgba(0,0,0,0.08),transparent)] dark:bg-[radial-gradient(closest-side,rgba(255,255,255,0.1),transparent)]"
@@ -104,12 +104,12 @@ export function Waitlist() {
                   inputMode="email"
                   spellCheck={false}
                   maxLength={254}
-                  className="flex-1 rounded-md border border-[var(--color-border)] bg-[var(--color-background)] px-4 py-2.5 text-sm outline-none focus:ring-2 focus:ring-[var(--color-foreground)]/15 focus:border-[var(--color-foreground)]/30 disabled:opacity-60"
+                  className="flex-1 rounded-none border-2 border-[var(--ink)] bg-[var(--color-background)] px-4 py-2.5 text-sm outline-none focus:ring-2 focus:ring-[var(--brand-blue)]/30 disabled:opacity-60"
                 />
                 <button
                   type="submit"
                   disabled={isSubmitting || !email}
-                  className="inline-flex items-center justify-center gap-2 rounded-md bg-[var(--color-foreground)] text-[var(--color-background)] px-4 py-2.5 text-sm font-medium hover:opacity-90 transition-opacity shadow-sm disabled:opacity-60"
+                  className="btn-brutal btn-blue"
                 >
                   {isSubmitting ? (
                     <>

@@ -7,8 +7,8 @@ export function Hero() {
     <section className="relative overflow-hidden">
       <div className="pointer-events-none absolute inset-x-0 -top-32 h-[480px] bg-[radial-gradient(60%_60%_at_50%_0%,rgba(0,0,0,0.06),transparent_70%)] dark:bg-[radial-gradient(60%_60%_at_50%_0%,rgba(255,255,255,0.08),transparent_70%)]" />
 
-      <div className="mx-auto max-w-6xl px-6 pt-24 pb-16 sm:pt-32 sm:pb-24 bg-white text-[#ff9300]">
-        <div className="flex flex-col items-start gap-8 text-black">
+      <div className="mx-auto max-w-6xl px-6 pt-24 pb-16 sm:pt-32 sm:pb-24">
+        <div className="flex flex-col items-start gap-8">
           <div className="inline-flex items-center gap-2 rounded-full border border-[var(--color-border)] bg-[var(--color-subtle)] px-3 py-1 text-xs text-[var(--color-muted-foreground)]">
             <span className="size-1.5 rounded-full bg-emerald-500" />
             local-first · bring your own AI · zero storage
@@ -29,10 +29,7 @@ export function Hero() {
           </p>
 
           <div className="flex flex-wrap items-center gap-3">
-            <Link
-              href="#waitlist"
-              className="inline-flex items-center gap-2 rounded-md bg-[var(--color-foreground)] text-[var(--color-background)] px-4 py-2.5 text-sm font-medium hover:opacity-90 transition-opacity shadow-sm"
-            >
+            <Link href="#waitlist" className="btn-brutal btn-blue">
               Join the waitlist
               <ArrowRight className="size-4" />
             </Link>
@@ -40,7 +37,7 @@ export function Hero() {
               href={GITHUB_URL}
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 rounded-md border border-[var(--color-border)] bg-[#ffaa07] px-4 py-2.5 text-sm font-medium hover:bg-[var(--color-subtle)] transition-colors"
+              className="btn-brutal btn-yellow"
             >
               <Github className="size-4" />
               View on GitHub

@@ -4,7 +4,7 @@ import { GITHUB_URL } from "@/lib/links";
 
 export function Nav() {
   return (
-    <header className="sticky top-0 z-40 backdrop-blur-md bg-[var(--color-background)]/80 border-b border-[var(--color-border)]">
+    <header className="sticky top-0 z-40 backdrop-blur-md bg-[var(--color-background)]/90 border-b-2 border-[var(--ink)]">
       <div className="mx-auto max-w-6xl px-6 h-16 flex items-center justify-between">
         <Link
           href="/"
@@ -50,7 +50,7 @@ export function Nav() {
           </Link>
           <Link
             href="#waitlist"
-            className="rounded-md bg-[var(--color-foreground)] text-[var(--color-background)] px-3 py-1.5 text-sm font-medium hover:opacity-90 transition-opacity"
+            className="btn-brutal btn-blue px-3 py-1.5"
           >
             Join waitlist
           </Link>

@@ -18,6 +18,12 @@
   --color-subtle: var(--subtle);
   --color-accent: var(--accent);
 
+  /* Brand palette — pulled from the brutalist wordmark logo. */
+  --color-ink: var(--ink);
+  --color-brand-yellow: var(--brand-yellow);
+  --color-brand-orange: var(--brand-orange);
+  --color-brand-blue: var(--brand-blue);
+
   --font-sans: var(--font-inter), ui-sans-serif, system-ui, -apple-system,
     "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
   --font-mono: var(--font-jetbrains-mono), ui-monospace, "SFMono-Regular",
@@ -38,27 +44,21 @@
 }
 
 :root {
-  color-scheme: light dark;
+  color-scheme: light;
 
-  --background: #fafafa;
+  --background: #ffffff;
   --foreground: #0a0a0a;
   --muted: #71717a;
   --muted-foreground: #52525b;
   --border: #e4e4e7;
-  --subtle: #f4f4f5;
+  --subtle: #f6f6f6;
   --accent: #0a0a0a;
-}
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #fafafa;
-    --muted: #a1a1aa;
-    --muted-foreground: #d4d4d8;
-    --border: #27272a;
-    --subtle: #18181b;
-    --accent: #fafafa;
-  }
+  /* Brutalist brand palette */
+  --ink: #0a0a0a;
+  --brand-yellow: #ffd400;
+  --brand-orange: #ff5a1f;
+  --brand-blue: #1d4ed8;
 }
 
 * {
@@ -73,29 +73,57 @@ html {
 
 body {
   background-color: var(--color-background);
-  background-image: url("/sky.jpg");
-  background-size: cover;
-  background-position: center top;
-  background-attachment: fixed;
-  background-repeat: no-repeat;
   color: var(--color-foreground);
   font-family: var(--font-sans);
   font-feature-settings: "ss01", "cv11";
 }
 
-/*
- * Dark mode: hide the sky image. Bright blue clouds behind dark sections
- * looks like a leaky paint job; the solid dark background is correct.
- */
-@media (prefers-color-scheme: dark) {
-  body {
-    background-image: none;
-  }
+::selection {
+  background-color: var(--brand-yellow);
+  color: var(--ink);
 }
 
-::selection {
-  background-color: var(--color-foreground);
-  color: var(--color-background);
+/*
+ * Brutalist buttons — chunky, square, hard offset shadows that echo the
+ * drop-shadow on the wordmark logo. Color variants layer on top.
+ */
+@layer components {
+  .btn-brutal {
+    @apply inline-flex items-center justify-center gap-2 rounded-none border-2 px-5 py-2.5 text-sm font-bold tracking-tight transition-all duration-150;
+    border-color: var(--ink);
+    box-shadow: 4px 4px 0 0 var(--ink);
+  }
+  .btn-brutal:hover {
+    transform: translate(-2px, -2px);
+    box-shadow: 6px 6px 0 0 var(--ink);
+  }
+  .btn-brutal:active {
+    transform: translate(2px, 2px);
+    box-shadow: 2px 2px 0 0 var(--ink);
+  }
+  .btn-brutal:disabled {
+    opacity: 0.5;
+    transform: none;
+    box-shadow: 4px 4px 0 0 var(--ink);
+    cursor: not-allowed;
+  }
+
+  .btn-blue {
+    background-color: var(--brand-blue);
+    color: #ffffff;
+  }
+  .btn-yellow {
+    background-color: var(--brand-yellow);
+    color: var(--ink);
+  }
+  .btn-ink {
+    background-color: var(--ink);
+    color: #ffffff;
+  }
+  .btn-white {
+    background-color: #ffffff;
+    color: var(--ink);
+  }
 }
 
 .text-balance {
